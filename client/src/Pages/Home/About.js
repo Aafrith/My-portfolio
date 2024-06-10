@@ -16,18 +16,15 @@ function About() {
   return (
     <div>
       <SectionTitle title="About" />
-      <div className="flex w-full items-center">
-        <div className="h-[50vh] w-1/2">
-          <dotlottie-player
-            src="https://lottie.host/aeb7057e-dad8-44ac-9420-cb87f6fcbd45/OR3vaf3BfN.json"
-            background="transparent"
-            speed="1"
-            direction="1"
-            playMode="normal"
-            autoplay
-          ></dotlottie-player>
-        </div>
-        <div className="flex flex-col gap-5 w-1/2">
+      <div className="flex w-full items-center sm:flex-col">
+      <div className="flex-shrink-0 ">
+        <img
+          src="/mm.jpeg"
+          alt="Mohamed Aafrith"
+          className="w-[350px] h-[350px] sm:w-[250px] sm:h-[250px] rounded-full object-cover"
+          />
+      </div>
+        <div className="flex flex-col gap-5 ml-20 w-full sm:w-full sm:mx-4 sm:mt-8 ">
           <p className="text-white">
             I am a dedicated third-year computer engineering student at the
             University of Ruhuna,Sri Lanka. passionate about the intersection of
@@ -45,15 +42,14 @@ function About() {
           </p>
         </div>
       </div>
-      <div className="py-5">
+      <div className="py-5 mt-10 sm:mt-4">
             <h1 className="text-tertiary text-xl">
                 Here are a few technologies I've been working with recently : 
             </h1>
-            <div className="flex flex-wrap gap-10 mt-5">
+            <div className="flex flex-wrap gap-10 mt-7">
                 {skills.map((skill, index) => (
                     <div className="border border-tertiary py-3 px-8 rounded-lg ">
                         <h1 className="text-tertiary">{skill}</h1>
-
                     </div>
                 ))}
             </div>
