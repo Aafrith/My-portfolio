@@ -1,13 +1,21 @@
+import React, { useState, useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Home from "./Pages/Home";
+import Loader from "./components/Loader";
 
 function App() {
+  const [showLoading, setShowLoading] = useState(false);
+
+ 
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home/>}/>
-      </Routes>
-    </BrowserRouter>   
+      {showLoading && <Loader />}
+      {!showLoading && (
+        <Routes>
+          <Route path="/" element={<Home />} />
+        </Routes>
+      )}
+    </BrowserRouter>
   );
 }
 
