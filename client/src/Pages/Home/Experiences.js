@@ -1,9 +1,12 @@
 import React from "react";
 import SectionTitle from "../../components/SectionTitle";
-import { experiences } from "../../resources/experiences";
+import { useSelector } from "react-redux";
 
 function Experiences() {
-  const [selectedItemIndex, setSelectedItemIndex] = React.useState(0);
+  const [selectedItemIndex , setSelectedItemIndex] = React.useState(0);
+  const { portfolioData } = useSelector((state) => state.root);
+  const { experiences } = portfolioData;
+
   return (
     <div>
       <SectionTitle title="Experiences" />
@@ -39,7 +42,7 @@ function Experiences() {
           <p className="text-white">
             Lorem Ipsum is simply dummy text of the printing and typesetting
             industry. Lorem Ipsum has been the industry's standard dummy text
-            ever since the 1500s, 
+            ever since the 1500s,
           </p>
         </div>
       </div>

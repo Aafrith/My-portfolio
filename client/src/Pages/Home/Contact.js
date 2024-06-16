@@ -1,26 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import SectionTitle from "../../components/SectionTitle";
+import { useSelector } from "react-redux";
+import axios from "axios";
 
 function Contact() {
-  const user = {
-    name: "Mohamed Aafrith",
-    age: null,
-    email: "maafrith15919@gmail.com",
-    mobile: "+94773054223",
-    country: "Srilanka",
+  const { portfolioData } = useSelector((state) => state.root);
+  const Contact = portfolioData?.contact;
+  const [formData, setFormData] = useState({
+    senderEmail: "",
+    message: ""
+  });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value
+    });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission logic here
+    try {
+      await axios.post("/api/portfolio/send-email", formData);
+      alert("Email sent successfully!");
+      setFormData({
+        senderEmail: "",
+        message: ""
+      });
+    } catch (error) {
+      alert("Error sending email.");
+      console.error(error);
+    }
   };
 
   return (
     <div className="flex flex-col md:flex-row md:justify-between">
       <div className="md:w-1/2">
-        <SectionTitle title="Say Hello !" />
-
+        <SectionTitle title="Contact Information" />
         <div className="flex flex-col items-center sm:items-start">
+          {/* Lottie Animation */}
           <div className="h-[500px] w-[800px] sm:w-auto mb-4 sm:mb-0 sm:-mt-[120px]">
             <dotlottie-player
               src="https://lottie.host/6eb71e44-dd19-444b-90b1-7ec7f93bf6fb/DIfXWwgUps.json"
@@ -31,58 +50,51 @@ function Contact() {
               autoplay
             ></dotlottie-player>
           </div>
+
+          {/* Contact Details */}
           <div className="flex flex-col text-tertiary gap-1 sm:-mt-[70px] sm:px-[120px]">
             <p className="text-tertiary text-sm">{"{"}</p>
-            {Object.keys(user).map((key) => (
-              <p className="ml-5 text-[0px]" key={key}>
-                <span className="text-tertiary">{key} : </span>
-                <span className="text-tertiary">{user[key]}</span>
-              </p>
-            ))}
+            {Contact ? (
+              Object.keys(Contact)
+                .filter((key) => key !== "_id") // Filter out the _id key
+                .map((key) => (
+                  <p className="ml-5 text-sm" key={key}>
+                    <span className="text-tertiary">{key} : </span>
+                    <span className="text-tertiary">{Contact[key]}</span>
+                  </p>
+                ))
+            ) : (
+              <p></p>
+            )}
             <p className="text-tertiary text-sm">{"}"}</p>
           </div>
-        </div>
-      </div>
 
-      <div className="md:w-1/3 mt-10 md:mt-0">
-        <SectionTitle title="Contact Me" />
-        <form
-          onSubmit={handleSubmit}
-          className="flex flex-col border border-tertiary gap-4 p-4 bg-[#58432259] rounded-lg shadow-lg max-w-[500px] mx-auto"
-        >
-          <label className="flex flex-col">
-            <span className="text-white mb-2">Full name *</span>
-            <input
-              type="text"
-              placeholder="Enter your full name ..."
-              className="p-2 border border-primary rounded-md bg-[#0f314769] text-white outline-none"
-              required
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white mb-2">Email *</span>
-            <input
-              type="email"
-              placeholder="Enter your email ..."
-              className="p-2 rounded-md border border-primary bg-[#0f314769] text-white outline-none"
-              required
-            />
-          </label>
-          <label className="flex flex-col">
-            <span className="text-white mb-2">Message *</span>
-            <textarea
-              placeholder="Enter your message ..."
-              className="p-2 rounded-md border border-primary bg-[#0f314769] text-white outline-none h-32"
-              required
-            ></textarea>
-          </label>
-          <button
-            type="submit"
-            className="py-2 px-4 bg-[#f3a43cf3] text-primary text-2xl text-bold rounded-md max-w-[100px] hover:bg-tertiary-dark transition self-center"
-          >
-            Send
-          </button>
-        </form>
+          {/* Email Form */}
+          <form onSubmit={handleSubmit} className="flex flex-col gap-4 mt-8 w-full px-4 items-center">
+            <div className="w-full max-w-[580px]">
+              <input
+                type="email"
+                name="senderEmail"
+                value={formData.senderEmail}
+                onChange={handleChange}
+                placeholder="Your Email"
+                className="border rounded px-4 py-2 text-black w-full"
+                required
+              />
+              <textarea
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder="Your Message"
+                className="border rounded px-4 py-2 text-black h-40 w-full mt-4"
+                required
+              />
+              <button type="submit" className="bg-tertiary text-primary rounded px-4 py-2 mt-4 mx-auto block w-24">
+                Send
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     </div>
   );

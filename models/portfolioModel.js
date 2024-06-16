@@ -124,5 +124,4 @@ module.exports = {
     Experience: mongoose.model("experiences", experienceSchema),
     Project: mongoose.model("projects", projectsSchema),
     Certification: mongoose.model("certifications", certificationsSchema),
-    Contact: mongoose.model("contacts", contactSchema),
-};
+    Contact: mongoose.model("contacts", contactSchema),};
